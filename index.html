@@ -859,7 +859,7 @@
   <p class="hero-role">L1 & L2 Technical Support · Mumbai, India</p>
   <div class="hero-stats">
     <div class="stat">
-      <div class="stat-num" data-count="2.5">0</div>
+      <div class="stat-num" id="stat-years-exp" data-count="0">0</div>
       <div class="stat-label">Years Exp</div>
     </div>
     <div class="stat">
@@ -890,7 +890,7 @@
       <div class="section-line"></div>
     </div>
     <p class="about-text">
-      Desktop Support Engineer with <strong style="color:var(--cyan)">2.5+ years</strong> of hands-on experience in L1 and L2 technical support. Skilled in troubleshooting Windows operating systems, hardware diagnostics, printer configuration, Outlook setup, and basic networking issues.
+      Desktop Support Engineer with <strong id="about-years-exp" style="color:var(--cyan)">— years</strong> of hands-on experience in L1 and L2 technical support. Skilled in troubleshooting Windows operating systems, hardware diagnostics, printer configuration, Outlook setup, and basic networking issues.
     </p>
     <p class="about-text">
       Experienced in resolving technical incidents within SLA and providing onsite and remote support to end users. Focused on ensuring minimal downtime and high user satisfaction.
@@ -1334,6 +1334,25 @@ const skillObserver = new IntersectionObserver(entries => {
   });
 }, { threshold: 0.1 });
 skillObserver.observe(skillsSection);
+
+// ---- Real-time years of experience (career start: first role Sep 2023) ----
+const CAREER_START = new Date(2023, 8, 1);
+
+function getYearsExperience() {
+  const years = (Date.now() - CAREER_START.getTime()) / (365.25 * 24 * 60 * 60 * 1000);
+  return Math.round(years * 10) / 10;
+}
+
+function formatYearsExp(years) {
+  return years % 1 === 0 ? String(Math.floor(years)) : years.toFixed(1);
+}
+
+const yearsExp = getYearsExperience();
+const yearsExpFormatted = formatYearsExp(yearsExp);
+const statYearsEl = document.getElementById('stat-years-exp');
+const aboutYearsEl = document.getElementById('about-years-exp');
+if (statYearsEl) statYearsEl.dataset.count = yearsExp;
+if (aboutYearsEl) aboutYearsEl.textContent = `${yearsExpFormatted}+ years`;
 
 // ---- Animated Counter ----
 const countEls = document.querySelectorAll('[data-count]');
